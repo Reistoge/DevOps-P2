@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Persona } from './persona.interface';
-
+import { PERSONAS_STUB } from './personas.stubs';
 @Injectable()
 export class AppService {
-  private personas: Persona[] = [];
+  private personas: Persona[] = [...PERSONAS_STUB];
 
   getAll(): Persona[] {
     return this.personas;
