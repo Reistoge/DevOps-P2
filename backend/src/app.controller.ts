@@ -1,12 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import type { Persona } from './persona.interface';
 
-@Controller()
+@Controller('personas')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getAll(): Persona[] {
+    return this.appService.getAll();
+  }
+
+  @Post()
+  addPersona(@Body() persona: Persona): Persona {
+    return this.appService.addPersona(persona);
+  }
+
+  @Delete(':rut')
+  deletePersona(@Param('rut') rut: string): boolean {
+    return this.appService.deletePersona(rut);
   }
 }
