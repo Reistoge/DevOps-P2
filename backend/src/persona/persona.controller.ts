@@ -7,17 +7,17 @@ export class PersonaController {
   constructor(private readonly personaService: PersonaService) {}
 
   @Get()
-  getAll(): Persona[] {
+  async getAll(): Promise<Persona[]> {
     return this.personaService.getAll();
   }
 
   @Post()
-  addPersona(@Body() persona: Persona): Persona {
+  async addPersona(@Body() persona: Persona): Promise<Persona> {
     return this.personaService.addPersona(persona);
   }
 
   @Delete(':rut')
-  deletePersona(@Param('rut') rut: string): boolean {
+  async deletePersona(@Param('rut') rut: string): Promise<boolean> {
     return this.personaService.deletePersona(rut);
   }
 }

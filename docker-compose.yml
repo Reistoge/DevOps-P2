@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 1. La aplicación construida con el Dockerfile
+  api:
+    build:
+      context: ./backend # Apunta a la carpeta donde está tu Dockerfile
+      dockerfile: Dockerfile
+    container_name: devops_api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - db
+
+  # 2. La base de datos seleccionada (PostgreSQL) 
+  db:
+    image: postgres:15-alpine
+    container_name: devops_db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'      # Límite: Medio núcleo de CPU 
+          memory: 512M      # Límite: 512 MB de RAM
+
+  # 3. Un visor de la instancia de la base de datos (pgAdmin)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: devops_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'      # Límite: Un cuarto de núcleo de CPU 
+          memory: 256M      # Límite: 256 MB de RAM
+
+volumes:
+  postgres_data:

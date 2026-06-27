@@ -30,7 +30,7 @@ describe('PersonaController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return all personas', () => {
+  it('should return all personas', async () => {
     const personas: Persona[] = [
       {
         nombre: 'Ana Perez',
@@ -47,11 +47,11 @@ describe('PersonaController', () => {
 
     service.getAll.mockReturnValue(personas);
 
-    expect(controller.getAll()).toEqual(personas);
+    await expect(controller.getAll()).resolves.toEqual(personas);
     expect(service.getAll).toHaveBeenCalledTimes(1);
   });
 
-  it('should add a persona', () => {
+  it('should add a persona', async () => {
     const persona: Persona = {
       nombre: 'Ana Perez',
       rut: '33333333-3',
@@ -66,14 +66,14 @@ describe('PersonaController', () => {
 
     service.addPersona.mockReturnValue(persona);
 
-    expect(controller.addPersona(persona)).toEqual(persona);
+    await expect(controller.addPersona(persona)).resolves.toEqual(persona);
     expect(service.addPersona).toHaveBeenCalledWith(persona);
   });
 
-  it('should delete a persona by rut', () => {
+  it('should delete a persona by rut', async () => {
     service.deletePersona.mockReturnValue(true);
 
-    expect(controller.deletePersona('11111111-1')).toBe(true);
+    await expect(controller.deletePersona('11111111-1')).resolves.toBe(true);
     expect(service.deletePersona).toHaveBeenCalledWith('11111111-1');
   });
 });
