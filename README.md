@@ -12,7 +12,7 @@ Los cambios correspondientes a la parte 2 de la evaluación se encuentran en la 
 
 ## Parte 3 — Investigación
 
-Esta rama (`docs/evaluation`) contiene el documento de investigación sobre herramientas y servicios DevOps en Microsoft Azure.
+La carpeta docs contiene el documento de investigación sobre herramientas y servicios DevOps en Microsoft Azure.
 
 ### Documentos
 
